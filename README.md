@@ -20,5 +20,6 @@ Total:  35:09 -03:36
 
 Requires [colorama](https://pypi.python.org/pypi/colorama) if you want to have colors.
 It can be installed with:
+
     pip install colorama
 
