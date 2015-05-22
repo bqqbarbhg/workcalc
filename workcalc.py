@@ -10,11 +10,15 @@ import os
 use_colors = sys.stdout.isatty()
 
 if use_colors:
-    import colorama
-    if os.name == 'nt':
-        colorama.init(strip=True, convert=True)
-    else:
-        colorama.init()
+    try:
+        import colorama
+        if os.name == 'nt':
+            colorama.init(strip=True, convert=True)
+        else:
+            colorama.init()
+    except ImportError:
+        print 'For colors install colorama      ($ pip install colorama)'
+        use_colors = False
 
 tformat = "%H:%M"
 
