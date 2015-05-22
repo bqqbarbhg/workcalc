@@ -2,7 +2,7 @@
 Calculates and visualizes work time sums
 
 Example:
-'''
+```
 > ./workcalc.py workhours.csv
 
    08:05 +00:20    ............    ............    ............
@@ -16,4 +16,4 @@ Example:
 Month:  35:09 -03:36
 
 Total:  35:09 -03:36
-'''
+```
