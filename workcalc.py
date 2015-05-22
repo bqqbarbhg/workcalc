@@ -5,6 +5,16 @@ import sys
 from datetime import datetime, timedelta
 import itertools
 import operator
+import os
+
+use_colors = sys.stdout.isatty()
+
+if use_colors:
+    import colorama
+    if os.name == 'nt':
+        colorama.init(strip=True, convert=True)
+    else:
+        colorama.init()
 
 tformat = "%H:%M"
 
@@ -91,9 +101,17 @@ def isnull(td):
     return td.seconds == 0 and td.days == 0
 
 def formattad(t, td):
+    if use_colors:
+        ts = ''
+        ds = (colorama.Fore.RED, colorama.Fore.GREEN)[td > timedelta()] + colorama.Style.BRIGHT
+        ns = ''
+        rs = colorama.Fore.RESET + colorama.Style.RESET_ALL
+    else:
+        ts = ds = ns = rs = ''
+
     if isnull(t) or isnull(td):
-        return ' ' + '.' * 12
-    return "%s %s" % (formatd(t), formatd(td, '+'))
+        return ns + ' ' + '.' * 12 + rs
+    return "%s %s" % (ts + formatd(t), ds + formatd(td, '+')) + rs
 
 total_sum = nulltime
 
@@ -120,4 +138,7 @@ for month in months:
     print ''
 
 print 'Total: %s' % formattad(*total_sum)
+
+if use_colors:
+    colorama.deinit()
 
