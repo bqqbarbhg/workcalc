@@ -66,6 +66,9 @@ days = []
 cur_time_raw = datetime.now()
 cur_time = datetime(1900,1,1, hour=cur_time_raw.hour, minute=cur_time_raw.minute)
 
+nulltime = (timedelta(), timedelta())
+addtime = lambda x,y: tuple(map(operator.add, x, y))
+
 with open(sys.argv[1], 'rb') as csvfile:
     reader = csv.reader(csvfile)
     mapping = { n: i for (i, n) in enumerate(next(reader)) }
@@ -82,6 +85,7 @@ with open(sys.argv[1], 'rb') as csvfile:
             end = cur_time
 
         if None in (start, end, lunch):
+            days.append(nulltime)
             continue
 
         duration = end - start
@@ -94,9 +98,6 @@ with open(sys.argv[1], 'rb') as csvfile:
         delta = duration - workday
 
         days.append((duration, delta))
-
-nulltime = (timedelta(), timedelta())
-addtime = lambda x,y: tuple(map(operator.add, x, y))
 
 weeks = list(grouped(days, 5, nulltime))
 months = list(grouped(weeks, 4, []))
