@@ -108,13 +108,13 @@ def isnull(td):
 def formattad(t, td):
     if use_colors:
         ts = ''
-        ds = (colorama.Fore.RED, colorama.Fore.GREEN)[td > timedelta()] + colorama.Style.BRIGHT
+        ds = (colorama.Fore.RED, colorama.Fore.GREEN)[td >= timedelta()] + colorama.Style.BRIGHT
         ns = ''
         rs = colorama.Fore.RESET + colorama.Style.RESET_ALL
     else:
         ts = ds = ns = rs = ''
 
-    if isnull(t) or isnull(td):
+    if isnull(t) and isnull(td):
         return ns + ' ' + '.' * 12 + rs
     return "%s %s" % (ts + formatd(t), ds + formatd(td, '+')) + rs
 
