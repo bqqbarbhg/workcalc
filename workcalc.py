@@ -108,7 +108,8 @@ def isnull(td):
 def formattad(t, td):
     if use_colors:
         ts = ''
-        ds = (colorama.Fore.RED, colorama.Fore.GREEN)[td >= timedelta()] + colorama.Style.BRIGHT
+        ds = ((colorama.Fore.RED, colorama.Fore.GREEN)[td >= timedelta()] + 
+            (colorama.Style.BRIGHT if abs(td) >= timedelta(minutes=30) else ''))
         ns = ''
         rs = colorama.Fore.RESET + colorama.Style.RESET_ALL
     else:
