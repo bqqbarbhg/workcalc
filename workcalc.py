@@ -69,6 +69,8 @@ cur_time = datetime(1900,1,1, hour=cur_time_raw.hour, minute=cur_time_raw.minute
 nulltime = (timedelta(), timedelta())
 addtime = lambda x,y: tuple(map(operator.add, x, y))
 
+zerotime = parsetime('0:00')
+
 with open(sys.argv[1], 'rb') as csvfile:
     reader = csv.reader(csvfile)
     mapping = { n: i for (i, n) in enumerate(next(reader)) }
@@ -80,6 +82,8 @@ with open(sys.argv[1], 'rb') as csvfile:
         start = gettimecol('Start')
         end = gettimecol('End')
         lunch = getcol('Lunch?') == 'Yes'
+        adjust = gettimecol('Adjust')
+        adjust_delta = adjust - zerotime if adjust else None
 
         if start and not end:
             end = cur_time
@@ -91,6 +95,8 @@ with open(sys.argv[1], 'rb') as csvfile:
         duration = end - start
         if not lunch:
             duration += lunchbonus
+        if adjust_delta:
+            duration -= adjust_delta
 
         total_time += duration
         expected_time += workday
